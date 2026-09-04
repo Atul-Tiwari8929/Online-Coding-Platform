@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: "https://online-coding-platform-1.onrender.com",
     withCredentials: true,
     headers: {
         "Content-Type": "application/json"
@@ -9,5 +9,6 @@ const axiosClient = axios.create({
 });
 
 export default axiosClient;
+
 
 
