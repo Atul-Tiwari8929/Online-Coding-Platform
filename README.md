@@ -4,20 +4,26 @@ A LeetCode-style competitive programming platform where users can browse coding 
 
 Built as a full-stack learning project to explore backend architecture, authentication, caching, and third-party API integration.
 
-Live Demo: https://online-coding-platform-1n6d.vercel.app/
+
+## 🚀 Deployment & Live Demo
+
+The **frontend** of the application is deployed on **Vercel**, while the **Node.js/Express.js backend** is deployed on **Render**. This deployment architecture separates the client and server layers while enabling the platform to provide a complete production-ready experience.
+
+### 🌐 Live Application
+
+**Live Demo:** https://online-coding-platform-1n6d.vercel.app/
 
 ---
-
 ## Features
 
 - 🔐 **User Authentication** — Register, login, and logout using JWT-based auth with secure password hashing (bcrypt)
 - 🧩 **Problem Management** — Admins can create, update, and delete coding problems with visible and hidden test cases
 - ⚡ **Code Execution** — Submissions are compiled and run remotely via the [Judge0](https://judge0.com/) API, supporting multiple languages
 - ✅ **Automated Judging** — Submissions are evaluated against hidden test cases, tracking pass/fail status, runtime, and memory usage
+- 🤖 **AI-Powered DSA Tutor** — Integrated **Gemini AI** to provide problem-solving hints, code reviews, optimal approaches, complexity analysis, and test-case guidance based on the current coding problem
 - 🚦 **Rate Limiting** — Redis-backed cooldown system prevents users from spamming the submission endpoint
 - 📈 **Progress Tracking** — Tracks which problems each user has successfully solved
 - 🛡️ **Role-Based Access** — Separate permissions for regular users and admins
-
 ---
 
 ## Tech Stack
