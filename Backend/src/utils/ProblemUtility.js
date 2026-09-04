@@ -38,8 +38,14 @@ const submitBatch = async (submissions) => {
       const response = await axios.request(options);
       return response.data;
     } catch (error) {
-      console.error(error);
-    }
+
+    console.error(
+      "Judge0 submitBatch error:",
+      error.response?.data || error.message
+    );
+
+    throw error;
+  }
   }
 
   return await fetchData();
