@@ -13,7 +13,7 @@ const aiRouter = require("./routes/aiChatting")
 const cors = require('cors')
 
 app.use(cors({
- origin: 'https://online-coding-platform-vwjv.vercel.app',
+ origin: 'https://online-coding-platform-1n6d.vercel.app/',
  credentials:true
 
 }))  
