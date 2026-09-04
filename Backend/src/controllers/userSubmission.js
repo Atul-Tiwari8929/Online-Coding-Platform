@@ -54,9 +54,18 @@ try{
         expected_output: testCases.output
       }));
 
-      const submitResult = await submitBatch(submissions);
+     const submitResult = await submitBatch(submissions);
 
-      const resultToken = submitResult.map((value)=>value.token);
+console.log("SUBMIT BATCH RESULT:", submitResult);
+
+if (!Array.isArray(submitResult)) {
+    return res.status(500).json({
+        message: "Judge0 batch submission failed",
+        result: submitResult
+    });
+}
+
+const resultToken = submitResult.map((value) => value.token);
 
       const testResult = await submitToken(resultToken);
 
