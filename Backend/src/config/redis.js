@@ -4,10 +4,12 @@ const redisClient = createClient({
     username: 'default',
     password:process.env.REDIS_PASSWORD,
     socket: {
-        host: 'hands-microfresh-motion-32934.db.redis.io',
-        port: 14159
+        host: 'team-health-turboneat-16806.db.redis.io',
+        port: 16502
     }
 });
 
 
 module.exports= redisClient;
+
+

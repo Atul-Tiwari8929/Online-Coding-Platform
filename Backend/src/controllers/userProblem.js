@@ -63,12 +63,9 @@ const createProblem = async (req, res) => {
 
   }
 
-  catch (err) {
-
-
-    res.send("Error:" + err.message);
-
-  }
+ catch (err) {
+  res.status(500).send("Error:" + err.message);
+}
 
 
 }
@@ -185,7 +182,7 @@ const getProblemById = async (req, res) => {
     if (!id) {
       return res.status(404).send("Id is Missing");
     }
-
+  
     const DSA_Problem = await Problem.findById(id).select('_id title description startCode visibleTestCases difficulty tags referenceSolution');
 
         // -hiddenTestCases  to deselect
@@ -271,7 +268,7 @@ const submittedProblem = async(req,res)=>{
 
     res.status(200).send(ans);
 
-
+ 
   }
   catch(err){
 
