@@ -32,6 +32,7 @@ const UpdateProblem = () => {
         {
           input: "",
           output: "",
+          explanation: "",
         },
       ],
 
@@ -67,7 +68,8 @@ const UpdateProblem = () => {
     },
   });
 
-  // Visible Test Cases
+  // ================= VISIBLE TEST CASES =================
+
   const {
     fields: visibleFields,
     append: appendVisible,
@@ -77,7 +79,8 @@ const UpdateProblem = () => {
     name: "visibleTestCases",
   });
 
-  // Hidden Test Cases
+  // ================= HIDDEN TEST CASES =================
+
   const {
     fields: hiddenFields,
     append: appendHidden,
@@ -87,7 +90,8 @@ const UpdateProblem = () => {
     name: "hiddenTestCases",
   });
 
-  // Fetch existing problem
+  // ================= FETCH EXISTING PROBLEM =================
+
   useEffect(() => {
     const fetchProblem = async () => {
       try {
@@ -103,49 +107,57 @@ const UpdateProblem = () => {
           difficulty: data.difficulty || "easy",
           tags: data.tags || "array",
 
-          visibleTestCases:
-            data.visibleTestCases || [],
+          visibleTestCases: (data.visibleTestCases || []).map((testCase) => ({
+            input: testCase.input || "",
+            output: testCase.output || "",
+            explanation: testCase.explanation || "",
+          })),
 
-          hiddenTestCases:
-            data.hiddenTestCases || [],
+          hiddenTestCases: (data.hiddenTestCases || []).map((testCase) => ({
+            input: testCase.input || "",
+            output: testCase.output || "",
+            explanation: testCase.explanation || "",
+          })),
 
           startCode:
-            data.startCode || [
-              {
-                language: "C++",
-                initialCode: "",
-              },
-              {
-                language: "Java",
-                initialCode: "",
-              },
-              {
-                language: "JavaScript",
-                initialCode: "",
-              },
-            ],
+            data.startCode && data.startCode.length > 0
+              ? data.startCode
+              : [
+                  {
+                    language: "C++",
+                    initialCode: "",
+                  },
+                  {
+                    language: "Java",
+                    initialCode: "",
+                  },
+                  {
+                    language: "JavaScript",
+                    initialCode: "",
+                  },
+                ],
 
           referenceSolution:
-            data.referenceSolution || [
-              {
-                language: "C++",
-                completeCode: "",
-              },
-              {
-                language: "Java",
-                completeCode: "",
-              },
-              {
-                language: "JavaScript",
-                completeCode: "",
-              },
-            ],
+            data.referenceSolution &&
+            data.referenceSolution.length > 0
+              ? data.referenceSolution
+              : [
+                  {
+                    language: "C++",
+                    completeCode: "",
+                  },
+                  {
+                    language: "Java",
+                    completeCode: "",
+                  },
+                  {
+                    language: "JavaScript",
+                    completeCode: "",
+                  },
+                ],
         });
       } catch (error) {
-        console.error(
-          "Error fetching problem:",
-          error
-        );
+        console.error("Error fetching problem:", error);
 
         alert(
           error.response?.data ||
@@ -159,7 +171,8 @@ const UpdateProblem = () => {
     }
   }, [problemId, reset]);
 
-  // Update Problem
+  // ================= UPDATE PROBLEM =================
+
   const onSubmit = async (data) => {
     console.log("Updating problem...");
     console.log("Problem ID:", problemId);
@@ -168,14 +181,19 @@ const UpdateProblem = () => {
     try {
       // Do NOT send problemCreator
       // Backend already has the existing creator
+
       const updateData = {
         title: data.title,
         description: data.description,
         difficulty: data.difficulty,
         tags: data.tags,
+
         visibleTestCases: data.visibleTestCases,
+
         hiddenTestCases: data.hiddenTestCases,
+
         startCode: data.startCode,
+
         referenceSolution: data.referenceSolution,
       };
 
@@ -207,7 +225,7 @@ const UpdateProblem = () => {
   return (
     <div className="container mx-auto p-6">
 
-      {/* Header */}
+      {/* ================= HEADER ================= */}
 
       <div className="flex justify-between items-center mb-6">
 
@@ -227,7 +245,6 @@ const UpdateProblem = () => {
 
       </div>
 
-
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="space-y-6"
@@ -243,7 +260,7 @@ const UpdateProblem = () => {
 
           <div className="space-y-4">
 
-            {/* Title */}
+            {/* TITLE */}
 
             <div className="form-control">
 
@@ -260,8 +277,7 @@ const UpdateProblem = () => {
 
             </div>
 
-
-            {/* Description */}
+            {/* DESCRIPTION */}
 
             <div className="form-control">
 
@@ -279,8 +295,7 @@ const UpdateProblem = () => {
 
             </div>
 
-
-            {/* Difficulty */}
+            {/* DIFFICULTY */}
 
             <div className="form-control">
 
@@ -309,8 +324,7 @@ const UpdateProblem = () => {
 
             </div>
 
-
-            {/* Tags */}
+            {/* TAGS */}
 
             <div className="form-control">
 
@@ -347,7 +361,6 @@ const UpdateProblem = () => {
 
         </div>
 
-
         {/* ================= VISIBLE TEST CASES ================= */}
 
         <div className="card bg-base-100 shadow-lg p-6">
@@ -374,71 +387,64 @@ const UpdateProblem = () => {
 
           </div>
 
-
           <div className="space-y-4">
 
-            {visibleFields.map(
-              (field, index) => (
+            {visibleFields.map((field, index) => (
 
-                <div
-                  key={field.id}
-                  className="border rounded-lg p-4"
-                >
+              <div
+                key={field.id}
+                className="border rounded-lg p-4"
+              >
 
-                  <div className="flex justify-between items-center mb-3">
+                <div className="flex justify-between items-center mb-3">
 
-                    <h3 className="font-semibold">
-                      Test Case {index + 1}
-                    </h3>
+                  <h3 className="font-semibold">
+                    Test Case {index + 1}
+                  </h3>
 
-                    <button
-                      type="button"
-                      onClick={() =>
-                        removeVisible(index)
-                      }
-                      className="btn btn-xs btn-error"
-                    >
-                      Remove
-                    </button>
-
-                  </div>
-
-
-                  <input
-                    {...register(
-                      `visibleTestCases.${index}.input`
-                    )}
-                    placeholder="Input"
-                    className="input input-bordered w-full mb-2"
-                  />
-
-
-                  <input
-                    {...register(
-                      `visibleTestCases.${index}.output`
-                    )}
-                    placeholder="Expected Output"
-                    className="input input-bordered w-full mb-2"
-                  />
-
-
-                  <textarea
-                    {...register(
-                      `visibleTestCases.${index}.explanation`
-                    )}
-                    placeholder="Explanation"
-                    className="textarea textarea-bordered w-full"
-                  />
+                  <button
+                    type="button"
+                    onClick={() =>
+                      removeVisible(index)
+                    }
+                    className="btn btn-xs btn-error"
+                  >
+                    Remove
+                  </button>
 
                 </div>
 
-              )
-            )}
+                <input
+                  {...register(
+                    `visibleTestCases.${index}.input`
+                  )}
+                  placeholder="Input"
+                  className="input input-bordered w-full mb-2"
+                />
+
+                <input
+                  {...register(
+                    `visibleTestCases.${index}.output`
+                  )}
+                  placeholder="Expected Output"
+                  className="input input-bordered w-full mb-2"
+                />
+
+                <textarea
+                  {...register(
+                    `visibleTestCases.${index}.explanation`
+                  )}
+                  placeholder="Explanation"
+                  className="textarea textarea-bordered w-full"
+                />
+
+              </div>
+
+            ))}
 
           </div>
 
         </div>
-
 
         {/* ================= HIDDEN TEST CASES ================= */}
 
@@ -456,6 +462,7 @@ const UpdateProblem = () => {
                 appendHidden({
                   input: "",
                   output: "",
+                  explanation: "",
                 })
               }
               className="btn btn-sm btn-primary"
@@ -465,62 +472,70 @@ const UpdateProblem = () => {
 
           </div>
 
-
           <div className="space-y-4">
 
-            {hiddenFields.map(
-              (field, index) => (
+            {hiddenFields.map((field, index) => (
 
-                <div
-                  key={field.id}
-                  className="border rounded-lg p-4"
-                >
+              <div
+                key={field.id}
+                className="border rounded-lg p-4"
+              >
 
-                  <div className="flex justify-between items-center mb-3">
+                <div className="flex justify-between items-center mb-3">
 
-                    <h3 className="font-semibold">
-                      Hidden Test Case {index + 1}
-                    </h3>
+                  <h3 className="font-semibold">
+                    Hidden Test Case {index + 1}
+                  </h3>
 
-                    <button
-                      type="button"
-                      onClick={() =>
-                        removeHidden(index)
-                      }
-                      className="btn btn-xs btn-error"
-                    >
-                      Remove
-                    </button>
-
-                  </div>
-
-
-                  <input
-                    {...register(
-                      `hiddenTestCases.${index}.input`
-                    )}
-                    placeholder="Input"
-                    className="input input-bordered w-full mb-2"
-                  />
-
-
-                  <input
-                    {...register(
-                      `hiddenTestCases.${index}.output`
-                    )}
-                    placeholder="Expected Output"
-                    className="input input-bordered w-full"
-                  />
+                  <button
+                    type="button"
+                    onClick={() =>
+                      removeHidden(index)
+                    }
+                    className="btn btn-xs btn-error"
+                  >
+                    Remove
+                  </button>
 
                 </div>
 
-              )
-            )}
+                {/* INPUT */}
+
+                <input
+                  {...register(
+                    `hiddenTestCases.${index}.input`
+                  )}
+                  placeholder="Input"
+                  className="input input-bordered w-full mb-2"
+                />
+
+                {/* OUTPUT */}
+
+                <input
+                  {...register(
+                    `hiddenTestCases.${index}.output`
+                  )}
+                  placeholder="Expected Output"
+                  className="input input-bordered w-full mb-2"
+                />
+
+                {/* EXPLANATION */}
+
+                <textarea
+                  {...register(
+                    `hiddenTestCases.${index}.explanation`
+                  )}
+                  placeholder="Explanation"
+                  className="textarea textarea-bordered w-full"
+                />
+
+              </div>
+
+            ))}
 
           </div>
 
         </div>
-
 
         {/* ================= STARTING CODE ================= */}
 
@@ -559,7 +574,6 @@ const UpdateProblem = () => {
           </div>
 
         </div>
-
 
         {/* ================= REFERENCE SOLUTIONS ================= */}
 
@@ -603,7 +617,6 @@ const UpdateProblem = () => {
           </div>
 
         </div>
-
 
         {/* ================= BUTTONS ================= */}
 
