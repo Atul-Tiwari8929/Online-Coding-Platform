@@ -149,4 +149,4 @@ The server will start on `http://localhost:3000` (or the port specified in your 
 
 ## License
 
-This project was built for educational purposes as part of a backend development learning journey.
+This project was built for educational purposes as part of a Full Stack development learning journey.
